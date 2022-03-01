@@ -6,9 +6,6 @@ class BlogsController < ApplicationController
     @blogs = Blog.all
   end
 
-  # GET /blogs/1 or /blogs/1.json
-  def show
-  end
 
   # GET /blogs/new
   def new
@@ -19,9 +16,13 @@ class BlogsController < ApplicationController
   def edit
   end
 
+  def show
+    @favorite = current_user.favorites.find_by(blog_id: @blog.id)
+  end
+
   # POST /blogs or /blogs.json
   def create
-    @blog = Blog.new(blog_params)
+    @blog = current_user.blogs.build(blog_params)
 
     respond_to do |format|
       if @blog.save
